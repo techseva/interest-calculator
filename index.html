@@ -203,10 +203,17 @@ function downloadImage() {
 
   html2canvas(document.body).then(canvas => {
     addWatermark(canvas);
-    const link = document.createElement("a");
-    link.download = "వడ్డీ_లెక్కలు.jpg";
-    link.href = canvas.toDataURL("image/jpeg");
-    link.click();
+    const imageData = canvas.toDataURL("image/jpeg", 0.95);
+
+    if (typeof AndroidShare !== "undefined") {
+      AndroidShare.downloadImage(imageData); // Send base64 image to Android
+    } else {
+      const link = document.createElement("a");
+      link.download = "వడ్డీ_లెక్కలు.jpg";
+      link.href = imageData;
+      link.click();
+    }
+
     saveBtn.style.display = "block";
     shareBtn.style.display = "block";
   });
