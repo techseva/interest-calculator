@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>వడ్డీ లెక్కలు</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 15px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .container {
+      background: #fff;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      margin-top: 10px;
+      display: block;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .date-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .date-group input {
+      flex: 1;
+      min-width: 80px;
+    }
+
+    button {
+      background: #2980b9;
+      color: white;
+      font-weight: bold;
+      padding: 12px;
+      border: none;
+      margin-top: 15px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #1abc9c;
+    }
+
+    .result {
+      background: #ecf0f1;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      input, button {
+        font-size: 15px;
+      }
+      .date-group {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h2>వడ్డీ లెక్కలు</h2>
+<div class="container">
+  <label>పేరు (ఐచ్ఛికం):</label>
+  <input type="text" id="nameInput" placeholder="మీ పేరు నమోదు చేయండి">
+
+  <label>తీసుకున్న తేదీ:</label>
+  <div class="date-group">
+    <input type="text" id="startDay" value="" inputmode="numeric" maxlength="2"placeholder="రోజు">
+    <input type="text" id="startMonth" value="" inputmode="numeric" maxlength="2"placeholder="నెల">
+    <input type="text" id="startYear" value="" inputmode="numeric" maxlength="4"placeholder="సంవత్సరం">
+  </div>
+
+  <label>చెల్లించే తేదీ:</label>
+  <div class="date-group">
+    <input type="text" id="endDay" value="" inputmode="numeric" maxlength="2"placeholder="రోజు">
+    <input type="text" id="endMonth" value="" inputmode="numeric" maxlength="2"placeholder="నెల">
+    <input type="text" id="endYear" value="" inputmode="numeric" maxlength="4"placeholder="సంవత్సరం">
+  </div>
+
+  <label>తీసుకున్న మొత్తం:</label>
+  <input type="text" id="principal" value="" inputmode="numeric"placeholder="10000">
+
+  <label>వడ్డీ రేటు (₹100 కి నెలకి):</label>
+  <input type="text" id="rate" value="" inputmode="numeric"placeholder="1.5">
+
+  <button onclick="calculateMonthlyInterest()">లెక్కించు</button>
+
+  <div class="result" id="resultBox" style="display:none;">
+    <p id="nameDisplay" style="display:none;"><strong>పేరు:</strong> <span id="nameValue"></span></p>
+    <p><strong>మొత్తం రోజులు:</strong> <span id="days"></span></p>
+    <p><strong>మొత్తం నెలలు:</strong> <span id="months"></span></p>
+    <p><strong>మొత్తం సంవత్సరాలు:</strong> <span id="years"></span></p>
+    <p><strong>వడ్డీ మొత్తం:</strong> ₹<span id="interest"></span></p>
+    <p><strong>చెల్లించాల్సిన మొత్తం:</strong> ₹<span id="totalAmount"></span></p>
+    <button id="saveBtn" onclick="downloadImage()">📸 JPG లో సేవ్ చేయి</button>
+    <button id="shareBtn" onclick="shareImage()">📤 షేర్ చేయి</button>
+  </div>
+</div>
+
+<script>
+function calculateMonthlyInterest() {
+  const dd1 = document.getElementById("startDay").value.padStart(2, "0");
+  const mm1 = document.getElementById("startMonth").value.padStart(2, "0");
+  const yyyy1 = document.getElementById("startYear").value;
+  const dd2 = document.getElementById("endDay").value.padStart(2, "0");
+  const mm2 = document.getElementById("endMonth").value.padStart(2, "0");
+  const yyyy2 = document.getElementById("endYear").value;
+  const principal = parseFloat(document.getElementById("principal").value);
+  const rate = parseFloat(document.getElementById("rate").value);
+  const name = document.getElementById("nameInput").value.trim();
+  const nameDisplay = document.getElementById("nameDisplay");
+  const nameValue = document.getElementById("nameValue");
+
+  if (
+    dd1.length !== 2 || mm1.length !== 2 || yyyy1.length !== 4 ||
+    dd2.length !== 2 || mm2.length !== 2 || yyyy2.length !== 4 ||
+    isNaN(principal) || isNaN(rate)
+  ) {
+    alert("దయచేసి అన్ని ఫీల్డ్స్ సరైన అంకెలతో నమోదు చేయండి");
+    return;
+  }
+
+  const start = new Date(parseInt(yyyy1), parseInt(mm1) - 1, parseInt(dd1));
+  const end = new Date(parseInt(yyyy2), parseInt(mm2) - 1, parseInt(dd2));
+
+  if (end <= start) {
+    alert("చెల్లించే తేదీ, ప్రారంభ తేదీ కన్నా తర్వాత ఉండాలి");
+    return;
+  }
+
+  const totalDays = ((end.getFullYear() - start.getFullYear()) * 360) +
+                    ((end.getMonth() - start.getMonth()) * 30) +
+                    (end.getDate() - start.getDate());
+
+  let days = totalDays;
+  const years = Math.floor(days / 360);
+  days %= 360;
+  const months = Math.floor(days / 30);
+  days %= 30;
+
+  const interest = (principal / 100) * rate * (totalDays / 30);
+  const totalAmount = principal + interest;
+
+  if (name) {
+    nameValue.innerText = name;
+    nameDisplay.style.display = "block";
+  } else {
+    nameDisplay.style.display = "none";
+  }
+
+  document.getElementById("days").innerText = days;
+  document.getElementById("months").innerText = months;
+  document.getElementById("years").innerText = years;
+  document.getElementById("interest").innerText = interest.toFixed(2);
+  document.getElementById("totalAmount").innerText = totalAmount.toFixed(2);
+  document.getElementById("resultBox").style.display = "block";
+}
+
+function addWatermark(canvas) {
+  const ctx = canvas.getContext("2d");
+  ctx.font = "bold 14px Arial";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+  ctx.fillText("Created By Arun", 10, canvas.height - 10);
+}
+
+function downloadImage() {
+  const saveBtn = document.getElementById("saveBtn");
+  const shareBtn = document.getElementById("shareBtn");
+  saveBtn.style.display = "none";
+  shareBtn.style.display = "none";
+
+  html2canvas(document.body).then(canvas => {
+    addWatermark(canvas);
+    const link = document.createElement("a");
+    link.download = "వడ్డీ_లెక్కలు.jpg";
+    link.href = canvas.toDataURL("image/jpeg");
+    link.click();
+    saveBtn.style.display = "block";
+    shareBtn.style.display = "block";
+  });
+}
+
+function shareImage() {
+  const saveBtn = document.getElementById("saveBtn");
+  const shareBtn = document.getElementById("shareBtn");
+  saveBtn.style.display = "none";
+  shareBtn.style.display = "none";
+
+  html2canvas(document.body).then(canvas => {
+    addWatermark(canvas);
+    canvas.toBlob(blob => {
+      const file = new File([blob], "వడ్డీ_లెక్కలు.jpg", { type: "image/jpeg" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({
+          title: "వడ్డీ లెక్కలు",
+          text: "ఇది నా వడ్డీ లెక్కల ఫలితం.",
+          files: [file],
+        }).catch(err => alert("షేర్ విఫలమైంది: " + err));
+      } else {
+        alert("మీ బ్రౌజర్ షేర్ మద్దతు ఇవ్వదు.");
+      }
+      saveBtn.style.display = "block";
+      shareBtn.style.display = "block";
+    }, "image/jpeg");
+  });
+}
+</script>
+
+</body>
+</html>   Created By ARUN  
