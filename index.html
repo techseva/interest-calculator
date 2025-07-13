@@ -223,18 +223,18 @@ function shareImage() {
     canvas.toBlob(blob => {
       const file = new File([blob], "వడ్డీ_లెక్కలు.jpg", { type: "image/jpeg" });
 
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        navigator.share({
-          title: "వడ్డీ లెక్కలు",
-          text: "ఇది నా వడ్డీ లెక్కల ఫలితం.",
-          files: [file],
-        }).catch(err => alert("షేర్ విఫలమైంది: " + err));
-      } else if (typeof AndroidShare !== "undefined") {
-        // ✅ If inside Android WebView
-        AndroidShare.share("వడ్డీ లెక్కలు", "ఇది నా వడ్డీ లెక్కల ఫలితం.");
-      } else {
-        alert("మీ బ్రౌజర్ షేర్ మద్దతు ఇవ్వదు.");
-      }
+     if (navigator.share) {
+  navigator.share({
+    title: "వడ్డీ లెక్కలు",
+    text: "ఇది నా వడ్డీ లెక్కల ఫలితం.",
+    url: window.location.href
+  });
+} else if (typeof AndroidShare !== "undefined") {
+  AndroidShare.share("వడ్డీ లెక్కలు", "ఇది నా వడ్డీ లెక్కల ఫలితం.");
+} else {
+  alert("మీ బ్రౌజర్ షేర్ మద్దతు ఇవ్వదు.");
+}
+
 
       saveBtn.style.display = "block";
       shareBtn.style.display = "block";
