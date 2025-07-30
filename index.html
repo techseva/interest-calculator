@@ -1,274 +1,281 @@
-ARUN
-<!DOCTYPE html>
-<html lang="te">
+<div class=""></div><!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>వడ్డీ లెక్కలు</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Public Services Portal</title>
   <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background: #f4f4f4;
-      margin: 0;
-      padding: 15px;
+    :root {
+      --main-bg: #f4f8fb;
+      --card-bg: #ffffff;
+      --primary: #007acc;
+      --hover: #005a99;
+      --text-dark: #222;
+      --border: #ddd;
     }
 
-    h2 {
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--main-bg);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    header {
       text-align: center;
-      color: #333;
+      background: linear-gradient(to right, #007acc, #0097a7);
+      color: #fff;
+      padding: 30px 10px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 2em;
     }
 
     .container {
-      background: #fff;
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
       padding: 20px;
-      max-width: 500px;
-      margin: auto;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      transition: 0.3s ease;
     }
 
-    label {
-      margin-top: 10px;
-      display: block;
-      font-weight: bold;
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
     }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-
-    .date-group {
+    .card h2 {
+      font-size: 1.2em;
+      color: var(--primary);
+      margin-bottom: 15px;
       display: flex;
+      align-items: center;
       gap: 10px;
-      flex-wrap: wrap;
     }
 
-    .date-group input {
-      flex: 1;
-      min-width: 80px;
-    }
-
-    button {
-      background: #2980b9;
-      color: white;
-      font-weight: bold;
-      padding: 12px;
+    .card a, .card select {
+      display: block;
+      margin: 8px 0;
+      padding: 10px;
+      background: #e1f5fe;
       border: none;
-      margin-top: 15px;
-      width: 100%;
+      border-radius: 6px;
+      color: #007acc;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
       cursor: pointer;
-      font-size: 16px;
-      border-radius: 5px;
+    }
+
+    .card a:hover, .card select:hover {
+      background: #cceeff;
+      color: var(--hover);
+    }
+
+    .card select {
+      width: 100%;
+      font-size: 15px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
     button:hover {
-      background: #1abc9c;
+      background: var(--hover);
     }
 
-    .result {
-      background: #ecf0f1;
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 5px;
-      text-align: center;
-    }
-
-    @media (max-width: 480px) {
-      input, button {
-        font-size: 15px;
+    @media screen and (max-width: 500px) {
+      header h1 {
+        font-size: 1.5em;
       }
-      .date-group {
-        flex-direction: column;
+
+      .card h2 {
+        font-size: 1em;
       }
     }
   </style>
+
+  <script>
+    function goToLink(select) {
+      const url = select.value;
+      if (url) window.open(url, '_blank');
+    }
+
+    function openDialPad() {
+      const number = document.getElementById("mobileSelect").value;
+      if (number) window.location.href = "tel:" + number;
+      else alert("Please select a number to call.");
+    }
+
+    function openWhatsApp() {
+      const number = document.getElementById("mobileSelect").value;
+      if (number) window.open("https://wa.me/" + number, "_blank");
+      else alert("Please select a number for WhatsApp.");
+    }
+  </script>
 </head>
 <body>
 
-<h2>వడ్డీ లెక్కలు</h2>
-<div class="container">
+  <header>
+    
+<h5>ARUN KUMAR REDDY</h5>    
+    <h1>🌐 Smart Public Services Portal</h1>
+    <p>Access Government, ID, and Utility Services</p>
+  </header>
 
-  <label>ఇచ్చిన వారి పేరు:</label>
-  <input type="text" id="giverNameInput" placeholder="ఇచ్చిన వారి పేరు నమోదు చేయండి">
+  <div class="container">
 
-  <label>తీసుకున్న వారి పేరు:</label>
-  <input type="text" id="receiverNameInput" placeholder="తీసుకున్న వారి పేరు నమోదు చేయండి">
+    <!-- Public Services -->
+    <div class="card">
+      <h2>🛠️ Public Services</h2>
+<a href="https://annadathasukhibhava.ap.gov.in/know-your-status" target="_blank">ANNADATHA SUKHIBHAVA - PM KISAN Know Your Status</a>
+<a href="https://meebhoomi.ap.gov.in/" target="_blank">AP mee Bhoomi </a>
+      
+      <a href="https://nregastrep.nic.in/netnrega/loginframegp.aspx?lflag=eng&page=C&state_code=02&Digest=MVdbKZ+JNjWeEXnWJ/J4bQ">MGNREGA - Attendance/Payments</a>
+      <a href="https://aepos.ap.gov.in/SRC_Trans_Int.jsp" target="_blank">AP Ration Card to Rice Card Search</a>
+      <a href="DOB calculator.html" target="_blank">Date of Birth Age Calculator</a>
+      <a href="https://www.unitconverters.net/area/acres-to-hectare.htm" target="_blank">Convert Acres to Hectares</a>
+      <a href="https://pmkisan.gov.in/" target="_blank">PM Kisan Samman Nidhi</a>
+      <a href="https://eshram.gov.in/" target="_blank">eShram Self Registration</a>
+    <a href="https://voters.eci.gov.in/login" target="_blank"> voters Election Commission of India Login</a>
+      <a href="https://www.apcpdcl.in/" target="_blank"> APCPDCl electricity bill portal</a>
 
-  <label>తీసుకున్న తేదీ:</label>
-  <div class="date-group">
-    <input type="text" id="startDay" inputmode="numeric" maxlength="2" placeholder="రోజు">
-    <input type="text" id="startMonth" inputmode="numeric" maxlength="2" placeholder="నెల">
-    <input type="text" id="startYear" inputmode="numeric" maxlength="4" placeholder="సంవత్సరం">
-  </div>
+    </div>
 
-  <label>చెల్లించే తేదీ:</label>
-  <div class="date-group">
-    <input type="text" id="endDay" inputmode="numeric" maxlength="2" placeholder="రోజు">
-    <input type="text" id="endMonth" inputmode="numeric" maxlength="2" placeholder="నెల">
-    <input type="text" id="endYear" inputmode="numeric" maxlength="4" placeholder="సంవత్సరం">
-  </div>
+    <!-- Sachivalayam -->
+    <div class="card">
+      <h2>🏠 Grama Ward Sachivalayam Services</h2>
+      <select onchange="goToLink(this)">
+        <option value="">-- Select Grama ward SachivalayamServices --</option>
+        <option value="https://vswsonline.ap.gov.in/#/home">AP Seva Portal</option>
+        <option value="https://gramawardsachivalayam.ap.gov.in/GSWS/#!/CitizenSelfEkyc">Citizen Self EKYC</option>
+<option value=https://www.venkyacademy.in/?m=1"">GSWS Mee Seva Application Forms</option>        
+<option value="https://snehajobs.com/gsws-application-forms/">GSWS Mee Seva Application Forms 2</option>
+<option value="https://gsws-nbm.ap.gov.in/NBM/#!/PublicNavasakamScreen">NBM SCHEME ELIGIBILITY</option>
+<option value="https://swarnapanchayat.apcfss.in/LoginHouseTaxPayment">House Tax Payment</option>
+      
+      </select>
+    </div>
 
-  <label>తీసుకున్న మొత్తం:</label>
-  <input type="text" id="principal" inputmode="numeric" placeholder="10000">
+    <!-- Aadhaar -->
+    <div class="card">
+      <h2>🆔 Aadhaar Services</h2>
+      <select onchange="goToLink(this)">
+        <option value="">-- Aadhaar Services --</option>
+        <option value="https://myaadhaar.uidai.gov.in/">Aadhaar Login</option>
+        <option value="https://myaadhaar.uidai.gov.in/check-aadhaar-validity/en">Check Aadhaar Validity</option>
+        <option value="https://myaadhaar.uidai.gov.in/genricPVC/en">Order PVC Aadhaar</option>
+<option value="https://myaadhaar.uidai.gov.in/checkStatus/en">Check Aadhaar PVC Card Order Status</option>
+<option value="https://myaadhaar.uidai.gov.in/CheckAadhaarStatus/en">Check Enrolment or Update Status</option>
+      
+      </select>
+    </div>
 
-  <label>వడ్డీ రేటు (₹100 కి నెలకి):</label>
-  <input type="text" id="rate" inputmode="numeric" placeholder="1.5">
+    <!-- Banking -->
+    <div class="card">
+      <h2>🏦 Banking Services</h2>
+      <select onchange="goToLink(this)">
+        <option value="">-- Banking Services --</option>
+        <option value="https://www.npci.org.in/">National Payments Corporation of India (NPCI)</option>
+        <option value="https://www.bankbazaar.com/ifsc-code.html">Search for IFSC/MICR codes</option>
 
-  <button onclick="calculateMonthlyInterest()">లెక్కించు</button>
+      </select>
+    </div>
 
-  <div class="result" id="resultBox" style="display:none;">
-    <p id="giverNameDisplay" style="display:none;"><strong>ఇచ్చిన వారు:</strong> <span id="giverNameValue"></span></p>
-    <p id="receiverNameDisplay" style="display:none;"><strong>తీసుకున్న వారు:</strong> <span id="receiverNameValue"></span></p>
-    <p><strong>మొత్తం రోజులు:</strong> <span id="days"></span></p>
-    <p><strong>మొత్తం నెలలు:</strong> <span id="months"></span></p>
-    <p><strong>మొత్తం సంవత్సరాలు:</strong> <span id="years"></span></p>
-    <p><strong>వడ్డీ మొత్తం:</strong> ₹<span id="interest"></span></p>
-    <p><strong>చెల్లించాల్సిన మొత్తం:</strong> ₹<span id="totalAmount"></span></p>
-    <button id="saveBtn" onclick="downloadImage()">📸 JPG లో సేవ్ చేయి</button>
-    <button id="shareBtn" onclick="shareImage()">📤 షేర్ చేయి</button>
-  </div>
-</div>
+    <!-- PAN Card -->
+    <div class="card">
+      <h2>📝 PAN Card Services</h2>
+      <select onchange="goToLink(this)">
+        <option value="">-- PAN Services --</option>
+        <option value="https://www.pan.utiitsl.com/">UTI Pan Card Portal</option>
+<option value="https://www.onlineservices.nsdl.com/paam/endUserRegisterContact.html">NSDL Pan Card Portal</option>
+        <option value="https://www.onlineservices.nsdl.com/paam/endUserAddressUpdate.html">Update PAN Address</option>
+        <option value="https://www.onlineservices.nsdl.com/paam/ReprintEPan.html">Reprint PAN Card</option>
+      </select>
+    </div>
+      <div class="card">
+      <h2>Editing Tools</h2>
+<h5>PDF/JPG/WORD/EXCEL And More Tools</h5>
+      <select onchange="goToLink(this)">
+        <option value="">-- Select Tools --</option>
+<option value="https://remove.photos/remove-sky">Remove Image Sky</option>
+<option value="https://www.cutout.pro/passport-photo-maker">Make passport photo with proper photos size online - Cutout.Pro</option>
+<option value="Easy Notepad.html">Create Notes</option>
 
-<script>
-function calculateMonthlyInterest() {
-  const dd1 = document.getElementById("startDay").value.padStart(2, "0");
-  const mm1 = document.getElementById("startMonth").value.padStart(2, "0");
-  const yyyy1 = document.getElementById("startYear").value;
-  const dd2 = document.getElementById("endDay").value.padStart(2, "0");
-  const mm2 = document.getElementById("endMonth").value.padStart(2, "0");
-  const yyyy2 = document.getElementById("endYear").value;
-  const principal = parseFloat(document.getElementById("principal").value);
-  const rate = parseFloat(document.getElementById("rate").value);
-  const giverName = document.getElementById("giverNameInput").value.trim();
-  const receiverName = document.getElementById("receiverNameInput").value.trim();
+        <option value="https://www.remove.bg/uploads">Upload an image to remove the background</option>
+<option value="https://www.simpleimageresizer.com/resize-image-to-kb">Image Resizer To Kilobytes</option>
+        <option value="https://www.ilovepdf.com/pdf_to_jpg">PDF to JPG</option>
+<option value="https://www.ilovepdf.com/jpg_to_pdf">JPG to PDF</option>
+<option value="https://convert.town/image-dpi">Change the DPI of Image</option>
+<option value="https://formphotoeditor.com/resizer/213x213-px">213x213 PX Photo Resizer</option>
+<option value="https://image.pi7.org/resize-image-to-6cmx2cm">Resize Image to 6cm x 2cm (Signature Resizer)</option>      
+<option value="https://www.ilovepdf.com/merge_pdf">Merge PDF Combine PDFs in the order you want with the easiest PDF</option>
+<option value="https://www.ilovepdf.com/pdf_to_word">PDF to WORD Converter</option>
+<option value="https://www.ilovepdf.com/compress_pdf">Split PDF Separate one page or a whole set for easy conversion into independent PDF files., Split PDF</option>
+<option value="https://www.ilovepdf.com/word_to_pdf">Convert WORD to PDF</option>
+<option value="https://www.ilovepdf.com/pdf_to_excel">Convert PDF to EXCEL</option>
+<option value="https://www.ilovepdf.com/edit-pdf">PDF Editor</option>
+<option value="https://www.ilovepdf.com/unlock_pdf">Unlock PDF files. Remove PDF password</option>
+s<option value="https://www.ilovepdf.com/crop-pdf">Crop PDF</option>
+<option value="https://www.ilovepdf.com/ocr-pdf">OCR PDF</option>
+<option value="https://www.ilovepdf.com/">iLove PDF All Editing Tools</option>
 
-  if (
-    dd1.length !== 2 || mm1.length !== 2 || yyyy1.length !== 4 ||
-    dd2.length !== 2 || mm2.length !== 2 || yyyy2.length !== 4 ||
-    isNaN(principal) || isNaN(rate)
-  ) {
-    alert("దయచేసి అన్ని ఫీల్డ్స్ సరైన అంకెలతో నమోదు చేయండి");
-    return;
-  }
+      </select>
+    </div>
+  
+    <!-- Missed Call Banking -->
+    <div class="card">
+      <h2>📞 Bank Balance By Missed Call :</h2>
+      <select id="mobileSelect">
+        <option value="">-- Select Bank --</option>
+        <option value="9266921358">Andhra Pragathi Grameena Bank WhatsApp</option>      
+<option value="18004195959">AXIS Bank</option>      
+  <option value="919266135135">Bank of India Balance Check</option>
+<option value="09015734734">Canara Bank</option>      
+        <option value="18002703333">HDFC Balance Check</option>
+<option value="18002703355">HDFC Mini Statement</option>                
+<option value="09594612612">ICICi Bank</option>      
+<option value="18001802223">PNB</option>      
+        <option value="9109223766666">State Bank Of India Balance Check</option>
+        <option value="9109223866666">State Bank Of India Mini Statement</option>      
+      <option value="09223008586">UNION Bank</option>      
 
-  const start = new Date(parseInt(yyyy1), parseInt(mm1) - 1, parseInt(dd1));
-  const end = new Date(parseInt(yyyy2), parseInt(mm2) - 1, parseInt(dd2));
+      </select>
+      <div class="buttons">
+        <button onclick="openDialPad()">📞 Call</button>
+        <button onclick="openWhatsApp()">💬 WhatsApp</button>
+      </div>
+    </div>
 
-  if (end <= start) {
-    alert("చెల్లించే తేదీ, ప్రారంభ తేదీ కన్నా తర్వాత ఉండాలి");
-    return;
-  }
-
-  const totalDays = ((end.getFullYear() - start.getFullYear()) * 360) +
-                    ((end.getMonth() - start.getMonth()) * 30) +
-                    (end.getDate() - start.getDate());
-
-  let days = totalDays;
-  const years = Math.floor(days / 360);
-  days %= 360;
-  const months = Math.floor(days / 30);
-  days %= 30;
-
-  const interest = (principal / 100) * rate * (totalDays / 30);
-  const totalAmount = principal + interest;
-
-  if (giverName) {
-    document.getElementById("giverNameValue").innerText = giverName;
-    document.getElementById("giverNameDisplay").style.display = "block";
-  } else {
-    document.getElementById("giverNameDisplay").style.display = "none";
-  }
-
-  if (receiverName) {
-    document.getElementById("receiverNameValue").innerText = receiverName;
-    document.getElementById("receiverNameDisplay").style.display = "block";
-  } else {
-    document.getElementById("receiverNameDisplay").style.display = "none";
-  }
-
-  document.getElementById("days").innerText = days;
-  document.getElementById("months").innerText = months;
-  document.getElementById("years").innerText = years;
-  document.getElementById("interest").innerText = interest.toFixed(2);
-  document.getElementById("totalAmount").innerText = totalAmount.toFixed(2);
-  document.getElementById("resultBox").style.display = "block";
-}
-
-function addWatermark(canvas) {
-  const ctx = canvas.getContext("2d");
-  ctx.font = "bold 14px Arial";
-  ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
-  ctx.fillText("Created By Arun", 10, canvas.height - 10);
-}
-
-function downloadImage() {
-  const saveBtn = document.getElementById("saveBtn");
-  const shareBtn = document.getElementById("shareBtn");
-  saveBtn.style.display = "none";
-  shareBtn.style.display = "none";
-
-  html2canvas(document.body).then(canvas => {
-    addWatermark(canvas);
-    const imageData = canvas.toDataURL("image/jpeg", 0.95);
-    if (typeof AndroidShare !== "undefined") {
-      AndroidShare.downloadImage(imageData);
-    } else {
-      const link = document.createElement("a");
-      link.download = "వడ్డీ_లెక్కలు.jpg";
-      link.href = imageData;
-      link.click();
-    }
-    saveBtn.style.display = "block";
-    shareBtn.style.display = "block";
-  });
-}
-<!-- Replace your existing shareImage function in the <script> tag with this -->
-
-function shareImage() {
-  const saveBtn = document.getElementById("saveBtn");
-  const shareBtn = document.getElementById("shareBtn");
-  saveBtn.style.display = "none";
-  shareBtn.style.display = "none";
-
-  html2canvas(document.body).then(canvas => {
-    addWatermark(canvas);
-    canvas.toBlob(blob => {
-      const file = new File([blob], "వడ్డీ_లెక్కలు.jpg", { type: "image/jpeg" });
-
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        navigator.share({
-          files: [file],
-          title: "వడ్డీ లెక్కలు",
-          text: "ఇది మీ వడ్డీ లెక్కల ఫలితం.",
-        }).catch((error) => {
-          alert("షేర్ విఫలమైంది: " + error);
-        });
-      } else if (typeof AndroidShare !== "undefined") {
-        // For Android WebView Java interface
-        const reader = new FileReader();
-        reader.onload = function () {
-          const base64Image = reader.result;
-          AndroidShare.shareImage(base64Image); // Send base64 to Android native
-        };
-        reader.readAsDataURL(blob);
-      } else {
-        alert("మీ బ్రౌజర్ ఈ ఇమేజ్‌ను షేర్ చేయలేను. దయచేసి Android App లేదా Chrome Mobile ఉపయోగించండి.");
-      }
-
-      saveBtn.style.display = "block";
-      shareBtn.style.display = "block";
-    }, "image/jpeg", 0.95);
-  });
-}
-
-
-
-</script>
-</body>
+<a href="camera 2side id card .html" target="_blank"> 2Side create ID Card</a>  
+  </body>
 </html>
