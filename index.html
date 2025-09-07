@@ -1,4 +1,3 @@
-ARUN
 <!DOCTYPE html>
 <html lang="te">
 <head>
@@ -11,19 +10,39 @@ ARUN
       font-family: 'Arial', sans-serif;
       background: #f4f4f4;
       margin: 0;
-      padding: 15px;
+      padding: 0;
     }
 
-    h2 {
+    header {
+      background: #2980b9;
+      color: white;
       text-align: center;
-      color: #333;
+      padding: 15px;
+      font-size: 20px;
+    }
+
+    nav {
+      display: flex;
+      background: #1abc9c;
+    }
+    nav button {
+      flex: 1;
+      padding: 12px;
+      background: #16a085;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    nav button.active {
+      background: #0e6655;
     }
 
     .container {
       background: #fff;
       padding: 20px;
-      max-width: 500px;
-      margin: auto;
+      max-width: 600px;
+      margin: 15px auto;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
@@ -79,20 +98,29 @@ ARUN
       text-align: center;
     }
 
-    @media (max-width: 480px) {
-      input, button {
-        font-size: 15px;
-      }
-      .date-group {
-        flex-direction: column;
-      }
+    .hidden {
+      display: none;
+    }
+
+    .settings-list button {
+      background: #16a085;
+      margin: 10px 0;
     }
   </style>
 </head>
 <body>
 
-<h2>వడ్డీ లెక్కలు</h2>
-<div class="container">
+<header>💰 వడ్డీ లెక్కలు</header>
+
+<!-- Navigation Tabs -->
+<nav>
+  <button class="active" onclick="showTab('calcTab', this)">Calculator</button>
+  <button onclick="showTab('settingsTab', this)">Settings</button>
+</nav>
+
+<!-- Calculator Tab -->
+<div id="calcTab" class="container">
+  <h2>వడ్డీ లెక్కలు</h2>
 
   <label>ఇచ్చిన వారి పేరు:</label>
   <input type="text" id="giverNameInput" placeholder="ఇచ్చిన వారి పేరు నమోదు చేయండి">
@@ -135,7 +163,82 @@ ARUN
   </div>
 </div>
 
-<script>
+<!-- Settings Tab -->
+<div id="settingsTab" class="container hidden">
+  <h2>⚙️ సెట్టింగ్స్</h2>
+  <div class="settings-list">
+    <button onclick="showScreen('aboutScreen')">ℹ️ About</button>
+    <button onclick="openPrivacyPolicy()">🔒 Privacy Policy</button>
+    <button onclick="showScreen('licenseScreen')">📜 Open Source Licenses</button>
+    <button onclick="showScreen('languageScreen')">🌐 Language</button>
+  </div>
+</div>
+
+<!-- About Screen -->
+<div id="aboutScreen" class="container hidden">
+  <h2>ℹ️ About</h2>
+  <p>ఈ "వడ్డీ లెక్కలు" యాప్ సులభంగా వడ్డీని లెక్కించడానికి సహాయపడుతుంది.</p>
+  <p>వర్షన్: 1.0.0</p>
+  <button onclick="goBack()">⬅️ వెనక్కి</button>
+</div>
+
+<!-- License Screen -->
+<div id="licenseScreen" class="container hidden">
+  <h2>📜 Open Source Licenses</h2>
+  <p>ఈ యాప్‌లో html2canvas లైబ్రరీ వాడబడింది:</p>
+  <pre>
+  html2canvas © Niklas von Hertzen
+  License: MIT
+  </pre>
+  <button onclick="goBack()">⬅️ వెనక్కి</button>
+</div>
+
+<!-- Language Screen -->
+<div id="languageScreen" class="container hidden">
+  <h2>🌐 Language</h2>
+  <p>మీకు కావాల్సిన భాషను ఎంచుకోండి:</p>
+  <div id="google_translate_element"></div>
+  <button onclick="goBack()">⬅️ వెనక్కి</button>
+</div>
+
+<script type="text/javascript">
+function showTab(tabId, btn) {
+  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("calcTab").classList.add("hidden");
+  document.getElementById("settingsTab").classList.add("hidden");
+  document.getElementById(tabId).classList.remove("hidden");
+  // Hide extra screens when switching
+  document.getElementById("aboutScreen").classList.add("hidden");
+  document.getElementById("licenseScreen").classList.add("hidden");
+  document.getElementById("languageScreen").classList.add("hidden");
+}
+
+function showScreen(screenId) {
+  document.getElementById("settingsTab").classList.add("hidden");
+  document.getElementById(screenId).classList.remove("hidden");
+}
+
+function goBack() {
+  document.getElementById("aboutScreen").classList.add("hidden");
+  document.getElementById("licenseScreen").classList.add("hidden");
+  document.getElementById("languageScreen").classList.add("hidden");
+  document.getElementById("settingsTab").classList.remove("hidden");
+}
+
+function openPrivacyPolicy() {
+  window.open("https://your-privacy-policy-link.com", "_blank");
+}
+
+// Google Translate
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement(
+    {pageLanguage: 'te', includedLanguages: 'te,en,hi,ta,kn,ml,mr,gu,bn,pa,or'},
+    'google_translate_element'
+  );
+}
+
+// Interest calculator function (same as before)
 function calculateMonthlyInterest() {
   const dd1 = document.getElementById("startDay").value.padStart(2, "0");
   const mm1 = document.getElementById("startMonth").value.padStart(2, "0");
@@ -200,6 +303,7 @@ function calculateMonthlyInterest() {
   document.getElementById("resultBox").style.display = "block";
 }
 
+// Watermark + Save + Share functions
 function addWatermark(canvas) {
   const ctx = canvas.getContext("2d");
   ctx.font = "bold 14px Arial";
@@ -216,19 +320,14 @@ function downloadImage() {
   html2canvas(document.body).then(canvas => {
     addWatermark(canvas);
     const imageData = canvas.toDataURL("image/jpeg", 0.95);
-    if (typeof AndroidShare !== "undefined") {
-      AndroidShare.downloadImage(imageData);
-    } else {
-      const link = document.createElement("a");
-      link.download = "వడ్డీ_లెక్కలు.jpg";
-      link.href = imageData;
-      link.click();
-    }
+    const link = document.createElement("a");
+    link.download = "వడ్డీ_లెక్కలు.jpg";
+    link.href = imageData;
+    link.click();
     saveBtn.style.display = "block";
     shareBtn.style.display = "block";
   });
 }
-<!-- Replace your existing shareImage function in the <script> tag with this -->
 
 function shareImage() {
   const saveBtn = document.getElementById("saveBtn");
@@ -249,16 +348,8 @@ function shareImage() {
         }).catch((error) => {
           alert("షేర్ విఫలమైంది: " + error);
         });
-      } else if (typeof AndroidShare !== "undefined") {
-        // For Android WebView Java interface
-        const reader = new FileReader();
-        reader.onload = function () {
-          const base64Image = reader.result;
-          AndroidShare.shareImage(base64Image); // Send base64 to Android native
-        };
-        reader.readAsDataURL(blob);
       } else {
-        alert("మీ బ్రౌజర్ ఈ ఇమేజ్‌ను షేర్ చేయలేను. దయచేసి Android App లేదా Chrome Mobile ఉపయోగించండి.");
+        alert("మీ బ్రౌజర్ ఈ ఇమేజ్‌ను షేర్ చేయలేను.");
       }
 
       saveBtn.style.display = "block";
@@ -266,9 +357,10 @@ function shareImage() {
     }, "image/jpeg", 0.95);
   });
 }
-
-
-
 </script>
+
+<!-- Google Translate Script -->
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 </html>
