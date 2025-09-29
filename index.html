@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="te">
 <head>
@@ -97,15 +98,6 @@
       border-radius: 5px;
       text-align: center;
     }
-
-    .hidden {
-      display: none;
-    }
-
-    .settings-list button {
-      background: #16a085;
-      margin: 10px 0;
-    }
   </style>
 </head>
 <body>
@@ -114,8 +106,7 @@
 
 <!-- Navigation Tabs -->
 <nav>
-  <button class="active" onclick="showTab('calcTab', this)">Calculator</button>
-  <button onclick="showTab('settingsTab', this)">Settings</button>
+  <button class="active">Calculator</button>
 </nav>
 
 <!-- Calculator Tab -->
@@ -163,82 +154,8 @@
   </div>
 </div>
 
-<!-- Settings Tab -->
-<div id="settingsTab" class="container hidden">
-  <h2>⚙️ సెట్టింగ్స్</h2>
-  <div class="settings-list">
-    <button onclick="showScreen('aboutScreen')">ℹ️ About</button>
-    <button onclick="openPrivacyPolicy()">🔒 Privacy Policy</button>
-    <button onclick="showScreen('licenseScreen')">📜 Open Source Licenses</button>
-    <button onclick="showScreen('languageScreen')">🌐 Language</button>
-  </div>
-</div>
-
-<!-- About Screen -->
-<div id="aboutScreen" class="container hidden">
-  <h2>ℹ️ About</h2>
-  <p>ఈ "వడ్డీ లెక్కలు" యాప్ సులభంగా వడ్డీని లెక్కించడానికి సహాయపడుతుంది.</p>
-  <p>వర్షన్: 1.0.0</p>
-  <button onclick="goBack()">⬅️ వెనక్కి</button>
-</div>
-
-<!-- License Screen -->
-<div id="licenseScreen" class="container hidden">
-  <h2>📜 Open Source Licenses</h2>
-  <p>ఈ యాప్‌లో html2canvas లైబ్రరీ వాడబడింది:</p>
-  <pre>
-  html2canvas © Niklas von Hertzen
-  License: MIT
-  </pre>
-  <button onclick="goBack()">⬅️ వెనక్కి</button>
-</div>
-
-<!-- Language Screen -->
-<div id="languageScreen" class="container hidden">
-  <h2>🌐 Language</h2>
-  <p>మీకు కావాల్సిన భాషను ఎంచుకోండి:</p>
-  <div id="google_translate_element"></div>
-  <button onclick="goBack()">⬅️ వెనక్కి</button>
-</div>
-
 <script type="text/javascript">
-function showTab(tabId, btn) {
-  document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  document.getElementById("calcTab").classList.add("hidden");
-  document.getElementById("settingsTab").classList.add("hidden");
-  document.getElementById(tabId).classList.remove("hidden");
-  // Hide extra screens when switching
-  document.getElementById("aboutScreen").classList.add("hidden");
-  document.getElementById("licenseScreen").classList.add("hidden");
-  document.getElementById("languageScreen").classList.add("hidden");
-}
-
-function showScreen(screenId) {
-  document.getElementById("settingsTab").classList.add("hidden");
-  document.getElementById(screenId).classList.remove("hidden");
-}
-
-function goBack() {
-  document.getElementById("aboutScreen").classList.add("hidden");
-  document.getElementById("licenseScreen").classList.add("hidden");
-  document.getElementById("languageScreen").classList.add("hidden");
-  document.getElementById("settingsTab").classList.remove("hidden");
-}
-
-function openPrivacyPolicy() {
-  window.open("https://techseva.github.io/Talking-Calculator-Privacy-Policy/", "_blank");
-}
-
-// Google Translate
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement(
-    {pageLanguage: 'te', includedLanguages: 'te,en,hi,ta,kn,ml,mr,gu,bn,pa,or'},
-    'google_translate_element'
-  );
-}
-
-// Interest calculator function (same as before)
+// Interest calculator function
 function calculateMonthlyInterest() {
   const dd1 = document.getElementById("startDay").value.padStart(2, "0");
   const mm1 = document.getElementById("startMonth").value.padStart(2, "0");
@@ -359,9 +276,6 @@ function shareImage() {
 }
 </script>
 
-<!-- Google Translate Script -->
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
 </body>
 </html>
-
+```
